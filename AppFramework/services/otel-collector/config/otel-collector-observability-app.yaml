@@ -1,0 +1,41 @@
+processors:
+  batch/clickhouse:
+    timeout: 5s
+    send_batch_size: 5000
+
+exporters:
+  otlphttp/prometheus:
+    endpoint: http://prometheus:9090/api/v1/otlp
+
+  clickhouse:
+    endpoint: tcp://clickhouse:9000?dial_timeout=10s
+    database: otel
+    ttl: 72h
+    create_schema: true
+    timeout: 5s
+    retry_on_failure:
+      enabled: true
+      initial_interval: 5s
+      max_interval: 5s
+      max_elapsed_time: 30s
+    username: otel
+    password: ${env:OTEL_COLLECTOR_CLICKHOUSE_PASSWORD}
+
+service:
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, otlphttp/prometheus]
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, clickhouse]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug, clickhouse]
+    logs/self:
+      receivers: [otlp/self]
+      processors: [batch]
+      exporters: [debug/noop, clickhouse]

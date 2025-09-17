@@ -1,0 +1,6 @@
+include:
+  - path:
+      # This path should be adjusted to the location of the AppFramework Repo
+      - ../../stacks/observability-development/compose.yaml
+      # This file allows you to modify the components in the AppFramework (e.g. to add a custom dashboard)
+      - override.yaml

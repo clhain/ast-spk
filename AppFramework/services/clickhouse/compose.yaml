@@ -1,0 +1,19 @@
+volumes:
+  clickhouse:
+
+services:
+  clickhouse:
+    image: clickhouse/clickhouse-server:25.1.4
+    user: "101:101"
+    hostname: clickhouse
+    ulimits:
+      nofile:
+        soft: 262144
+        hard: 262144
+    volumes:
+      - ./config/config.d/config.xml:/etc/clickhouse-server/config.d/config.xml
+      - ./config/users.d/user-default.xml:/etc/clickhouse-server/users.d/user-default.xml
+      - ./config/docker-entrypoint-initdb.d/init-otel-db.sh:/docker-entrypoint-initdb.d/init-otel-db.sh
+      - clickhouse:/var/lib/clickhouse
+    healthcheck:
+      test: wget --no-verbose --tries=1 --spider http://localhost:8123/ping || exit 1

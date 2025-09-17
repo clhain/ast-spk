@@ -1,0 +1,12 @@
+apiVersion: 1
+
+providers:
+  - name: infrastructure
+    type: file
+    folder: Observability Infra.
+    updateIntervalSeconds: 30
+    disableDeletion: false
+    editable: true
+    allowUiUpdates: true
+    options:
+      path: /etc/dashboards/infrastructure

@@ -1,0 +1,7 @@
+services:
+  prometheus:
+    volumes:
+      # Scrape the Otel Collector With Prometheus Instead of having it scrape itself
+      - ../../services/prometheus/config/scrape_configs/scrape_otel.yaml:/etc/prometheus/scrape_configs/scrape_otel.yaml
+      - ../../services/prometheus/config/scrape_configs/scrape_grafana.yaml:/etc/prometheus/scrape_configs/scrape_grafana.yaml
+      - ../../services/prometheus/config/scrape_configs/scrape_clickhouse.yaml:/etc/prometheus/scrape_configs/scrape_clickhouse.yaml

@@ -1,0 +1,19 @@
+
+services:
+  otel-collector:
+    command:
+      # These don't merge with the base file, re-define here
+      - "--config=/etc/otel-collector.yaml"
+      - "--config=/etc/otel-collector-config-extras.yaml"
+      # Add the observability app receivers / exporters / processors / pipelines
+      - "--config=/etc/otel-collector-observability-app.yaml"
+    volumes:
+      # Add the observability app receivers / exporters / processors / pipelines
+      - ../../services/otel-collector/config/otel-collector-observability-app.yaml:/etc/otel-collector-observability-app.yaml
+    environment:
+      # Allow the collector to auth with clickhouse
+      - OTEL_COLLECTOR_CLICKHOUSE_PASSWORD=${OTEL_COLLECTOR_CLICKHOUSE_PASSWORD}
+    depends_on:
+      # The collector will crash if clickhouse isn't up
+      clickhouse:
+        condition: service_healthy

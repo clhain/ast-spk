@@ -1,0 +1,19 @@
+services:
+  grafana:
+    volumes:
+      # Add in the infrastructure dashboards
+      - ../../services/grafana/config/dashboards/infrastructure:/etc/dashboards/infrastructure
+      # Add in the Application dashboards/
+      - ../../services/grafana/config/dashboards/application/trace-dashboard.json:/etc/dashboards/application/trace-dashboard.json
+      # Add in the config that tells grafana where to find the application dashboards
+      - ../../services/grafana/config/provisioning/dashboards/dashboards-application.yaml:/etc/grafana/provisioning/dashboards/dashboards-application.yaml
+      # Add in the config that tells grafana where to find the infrastructure dashboards
+      - ../../services/grafana/config/provisioning/dashboards/dashboards-infrastructure.yaml:/etc/grafana/provisioning/dashboards/dashboards-infrastructure.yaml
+      # Add in the clickhouse datasource
+      - ../../services/grafana/config/provisioning/datasources/datasource-clickhouse.yaml:/etc/grafana/provisioning/datasources/datasource-clickhouse.yaml
+      # Add in the prometheus datasource
+      - ../../services/grafana/config/provisioning/datasources/datasource-prometheus.yaml:/etc/grafana/provisioning/datasources/datasource-prometheus.yaml
+    environment:
+      # Enable Clickhouse related Env Variables
+      - GF_INSTALL_PLUGINS=grafana-clickhouse-datasource
+      - GRAFANA_CLICKHOUSE_PASSWORD=${GRAFANA_CLICKHOUSE_PASSWORD}

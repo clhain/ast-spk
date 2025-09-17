@@ -1,0 +1,67 @@
+receivers:
+  otlp:
+    protocols:
+      grpc:
+        endpoint: "${env:HOSTNAME}:4317"
+      http:
+        endpoint: "${env:HOSTNAME}:4318"
+        cors:
+          allowed_origins:
+            - "http://*"
+            - "https://*"
+  # Seperate receiver for self-telemetry (avoid infinite logging cycle)
+  otlp/self:
+    protocols:
+      grpc:
+        endpoint: "${env:HOSTNAME}:4316"
+
+processors:
+  batch:
+
+exporters:
+  debug:
+    verbosity: basic
+    sampling_initial: 5
+    sampling_thereafter: 200
+  debug/detailed:
+    verbosity: detailed
+    sampling_initial: 5
+    sampling_thereafter: 200
+  debug/noop:
+    verbosity: normal
+    sampling_initial: 0
+    sampling_thereafter: 0
+
+service:
+  telemetry:
+    logs:
+      processors:
+        - batch:
+            exporter:
+              otlp:
+                protocol: grpc
+                endpoint: http://${env:HOSTNAME}:4316
+    metrics:
+      readers:
+        - pull:
+            exporter:
+              prometheus:
+                host: "${env:HOSTNAME}"
+                port: 8888
+  pipelines:
+    metrics:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]
+    traces:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]
+    logs:
+      receivers: [otlp]
+      processors: [batch]
+      exporters: [debug]
+    logs/self:
+      receivers: [otlp/self]
+      processors: [batch]
+      exporters: [debug/noop]

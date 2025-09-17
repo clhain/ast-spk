@@ -1,0 +1,4 @@
+services:
+  integration-tests:
+    # Restrict the tests to the components in use
+    command: ["pytest", "-m", "grafana or traces_clickhouse or logs_clickhouse or metrics_prometheus", "--maxfail=2", "tests/"]

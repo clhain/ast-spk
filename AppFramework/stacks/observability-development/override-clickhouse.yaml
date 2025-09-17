@@ -1,0 +1,12 @@
+services:
+  clickhouse:
+    volumes:
+      # Add Otel Collector User (creates otel metrics,logs,trace tables, writes data to them)
+      - ../../services/clickhouse/config/users.d/user-otel-collector.xml:/etc/clickhouse-server/users.d/user-otel-collector.xml
+      # Add Grafana User (reads from otel tables)
+      - ../../services/clickhouse/config/users.d/user-grafana.xml:/etc/clickhouse-server/users.d/user-grafana.xml
+    environment:
+      # Referenced in the Clickhouse user config (user-grafana.xml) to set the grafana password
+      GRAFANA_CLICKHOUSE_PASSWORD: ${GRAFANA_CLICKHOUSE_PASSWORD}
+      # Referenced in the Clickhouse user config (user-otel-collector.xml) to set the otel-collector password
+      OTEL_COLLECTOR_CLICKHOUSE_PASSWORD: ${OTEL_COLLECTOR_CLICKHOUSE_PASSWORD}

@@ -1,0 +1,8 @@
+include:
+  - path: 
+    - ./compose.yaml
+  - path:
+    - ../../tests/services/otel-telemetrygen/compose.yaml
+  - path:
+    - ../../tests/integration/compose.yaml
+    - ./override-test.yaml

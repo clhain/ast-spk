@@ -1,0 +1,13 @@
+services:
+  integration-tests:
+    build: .
+    hostname: integration-tests
+    environment:
+      - GRAFANA_URL=http://admin:admin@grafana:3000
+    depends_on:
+      otel-telemetrygen-logs:
+        condition: service_completed_successfully
+      otel-telemetrygen-metrics:
+        condition: service_completed_successfully
+      otel-telemetrygen-traces:
+        condition: service_completed_successfully

@@ -1,0 +1,13 @@
+services:
+  otel-collector:
+    image: ghcr.io/f5devcentral/application-study-tool/otel_custom_collector:v0.9.2
+    restart: unless-stopped
+    command:
+      - "--config=/etc/otel-collector.yaml"
+      - "--config=/etc/otel-collector-config-extras.yaml"
+    volumes:
+      - ./config/otel-collector-default.yaml:/etc/otel-collector.yaml
+      - ./config/otel-collector-config-extras.yaml:/etc/otel-collector-config-extras.yaml
+    ports:
+      - "4317:4317"   # OTLP GRPC
+      - "4318:4318"   # OTLP HTTP

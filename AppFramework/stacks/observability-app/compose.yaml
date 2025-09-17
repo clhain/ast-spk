@@ -1,0 +1,13 @@
+include:
+  - path : 
+    - ../../services/grafana/compose.yaml
+    - ./override-grafana.yaml
+  - path : 
+    - ../../services/otel-collector/compose.yaml
+    - ./override-otel-collector.yaml
+  - path : 
+    - ../../services/clickhouse/compose.yaml
+    - ./override-clickhouse.yaml
+  - path : 
+    - ../../services/prometheus/compose.yaml
+    - ./override-prometheus.yaml

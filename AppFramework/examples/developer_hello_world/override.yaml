@@ -1,0 +1,5 @@
+services:
+  grafana:
+    volumes:
+      # Add in the Application dashboards
+      - ../../examples/developer_hello_world/hello-world-dashboard.json:/etc/dashboards/application/hello-world-dashboard.json
