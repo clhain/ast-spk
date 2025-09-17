@@ -1,0 +1,33 @@
+# 🚩🚩🚩 Don't put your own overrides in this file! - Run 'make init' and then put your edits in override.yaml 🚩🚩🚩
+
+# Individual services have configurations that are merged with the base AppFramework applied below, to e.g. include App specific dashboards,
+# collector settings, etc.
+
+# You can view the fully resolved config by running `docker compose config`.
+
+services:
+  prometheus:
+    # All volume paths are relative to the service compose file in AppFramework/stacks/observability-app
+    volumes:
+      - ../../../services/prometheus/scrape_configs/scrape_extras.yaml:/etc/prometheus/scrape_configs/scrape_extras.yaml
+
+  otel-collector:
+    # All volume paths are relative to the service compose file in AppFramework/stacks/observability-app
+    volumes:
+      - ../../../services/otel_collector:/etc/otel-collector-config
+    # Command is an exception to the merge rule for lists where all remote values are replaced with the below.
+    command:
+      # These don't merge with the base files, re-define here
+      - "--config=/etc/otel-collector.yaml"
+      - "--config=/etc/otel-collector-observability-app.yaml"
+      # Add the ast app receivers / exporters / processors / pipelines
+      - "--config=/etc/otel-collector-config/otel-collector-config-extras.yaml"
+
+  grafana:
+    # All volume paths are relative to the service compose file in AppFramework/stacks/observability-app
+    volumes:
+      - ../../../services/grafana/provisioning/datasources/datasource_extras.yaml:/etc/grafana/provisioning/datasources/datasource_extras.yaml
+    # Relative to the AppFramework/stacks/observability-app compose file
+    env_file: ["../../../.env"]
+
+# 🚩🚩🚩 Don't put your own overrides in this file! - Run 'make init' and then put your edits in overrides.yaml 🚩🚩🚩

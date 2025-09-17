@@ -1,0 +1,34 @@
+# End users can add their own configuration overrides here, the values will be merged with
+# override-app and the Appframework defaults.
+# See https://docs.docker.com/compose/how-tos/multiple-compose-files/merge/#merging-rules.
+# And https://docs.docker.com/reference/compose-file/merge/
+
+# You can view the fully resolved config by running `docker compose config`.
+
+
+#### UNCOMMENT THE FOLLOWING LINE IF YOU ADD ANY OVERRIDES BELOW ####
+# services:
+
+#   otel-collector:
+#     # Add certificates for authenticating to devices
+#     volumes:
+#       - ./config/ca_bundle.pem:/etc/ssl/ca_bundle.pem
+#     # List values are merged by appending or replacing (in the case of existing var names).
+#     # Adding extra values here will append them to the container environment
+#     environment:
+#       - AN_EXTRA_ENV_VAR="SOME_VALUE"
+
+#   prometheus:
+#     # The command attribute is a special case where values here replace those in the included
+#     # compose file. To modify retention time, specify all the flags from ./AppFramework/components/prometheus/compose.yaml
+#     command:
+#       - '--config.file=/etc/prometheus/prometheus.yaml'
+#       - '--storage.tsdb.path=/prometheus'
+#       - '--web.enable-remote-write-receiver'
+#       - '--web.enable-otlp-receiver'
+#       # If we only provide this line, the above settings would be removed (and things would break)...
+#       - '--storage.tsdb.retention.time=30d'
+
+#   grafana:
+#     environment:
+#       - GF_SOME_OTHER_ENV_ARGUMENT=SOME_VALUE

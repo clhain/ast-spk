@@ -1,0 +1,13 @@
+# AST USERS SHOULD NOT MODIFY THIS FILE
+# Custom user settings for individual services can be applied in the overides.yaml file (after running `make init`).
+# Modifying this file may lead to merge conflicts for future updates.
+
+# You can view the fully resolved config by running `docker compose config`.
+
+# This section includes the base observability app components that make up the majority of AST.
+# This includes self-monitoring for the observability stack, and base configurations for all components.
+include:
+  - path : 
+      - AppFramework/stacks/observability-app/compose.yaml
+      - override-app.yaml
+      - override.yaml

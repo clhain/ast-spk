@@ -1,0 +1,4 @@
+bigip-pipelines.yaml
+bigip-receivers.yaml
+otel-collector-config-extras.yaml
+ssl/*.pem

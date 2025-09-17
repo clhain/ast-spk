@@ -1,0 +1,15 @@
+## Additional datasources can be placed in this file and will be automatically included in the App.
+
+# apiVersion: 1
+
+# datasources:
+#   - name: AnotherPrometheus
+#     type: prometheus
+#     access: proxy
+#     orgId: 1
+#     url: http://AnotherPrometheus:9090
+#     basicAuth: false
+#     isDefault: true
+#     editable: true
+#     jsonData:
+#       timeInterval: 60s
