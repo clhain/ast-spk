@@ -35,7 +35,3 @@ service:
       receivers: [otlp]
       processors: [batch]
       exporters: [debug, clickhouse]
-    logs/self:
-      receivers: [otlp/self]
-      processors: [batch]
-      exporters: [debug/noop, clickhouse]
