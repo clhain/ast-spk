@@ -1,7 +1,7 @@
 receivers:
   syslog:
     udp:
-      listen_address: "0.0.0.0:54526"
+      listen_address: "0.0.0.0:5514"
     # operators:
     # - type: json_parser
     #   parse_from: attributes.message
