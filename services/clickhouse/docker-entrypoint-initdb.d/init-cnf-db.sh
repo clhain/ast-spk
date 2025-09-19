@@ -1,6 +1,11 @@
 #!/bin/bash
 set -e
 
+# Create the otel db if its not there yet.
+clickhouse client <<-EOSQL
+    CREATE DATABASE IF NOT EXISTS otel;
+EOSQL
+
 # Create the table for the extracted fields.
 clickhouse client <<-EOSQL
     CREATE TABLE  IF NOT EXISTS otel.otel_logs_f5_12276
