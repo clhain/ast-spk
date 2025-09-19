@@ -11,7 +11,7 @@ services:
     volumes:
       - ../../../services/prometheus/scrape_configs/scrape_extras.yaml:/etc/prometheus/scrape_configs/scrape_extras.yaml
 
-  prometheus:
+  clickhouse:
     # All volume paths are relative to the service compose file in AppFramework/stacks/observability-app
     volumes:
       - ../../../services/clickhouse/docker-entrypoint-initdb.d/init-cnf-db.sh:/docker-entrypoint-initdb.d/init-cnf-db.sh
