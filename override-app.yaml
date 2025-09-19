@@ -22,6 +22,11 @@ services:
       - "--config=/etc/otel-collector-observability-app.yaml"
       # Add the ast app receivers / exporters / processors / pipelines
       - "--config=/etc/otel-collector-config/otel-collector-config-extras.yaml"
+    ports:
+      - "4317:4317"   # OTLP GRPC
+      - "4318:4318"   # OTLP HTTP
+      - "5514:5514"   # SYSLOG TCP
+      - "5514:5514/udp"   # SYSLOG UDP
 
   grafana:
     # All volume paths are relative to the service compose file in AppFramework/stacks/observability-app

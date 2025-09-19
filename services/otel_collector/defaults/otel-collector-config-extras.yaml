@@ -1,0 +1,16 @@
+receivers:
+  syslog:
+    udp:
+      listen_address: "0.0.0.0:54526"
+    # operators:
+    # - type: json_parser
+    #   parse_from: attributes.message
+    protocol: rfc5424
+    location: UTC
+
+service:
+  pipelines:
+    logs/syslog:
+      receivers: [syslog]
+      processors: [batch/clickhouse]
+      exporters: [debug, clickhouse]
