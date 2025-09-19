@@ -6,6 +6,30 @@ clickhouse client <<-EOSQL
     CREATE DATABASE IF NOT EXISTS otel;
 EOSQL
 
+# Create the null log table for incoming otel data
+clickhouse client <<-EOSQL
+    CREATE TABLE IF NOT EXISTS otel.otel_logs
+    (
+        Timestamp DateTime64(9) CODEC(Delta(8), ZSTD(1)),
+        TraceId String CODEC(ZSTD(1)),
+        SpanId String CODEC(ZSTD(1)),
+        TraceFlags UInt8,
+        SeverityText LowCardinality(String) CODEC(ZSTD(1)),
+        SeverityNumber UInt8,
+        ServiceName LowCardinality(String) CODEC(ZSTD(1)),
+        Body String CODEC(ZSTD(1)),
+        ResourceSchemaUrl LowCardinality(String) CODEC(ZSTD(1)),
+        ResourceAttributes Map(LowCardinality(String), String) CODEC(ZSTD(1)),
+        ScopeSchemaUrl LowCardinality(String) CODEC(ZSTD(1)),
+        ScopeName String CODEC(ZSTD(1)),
+        ScopeVersion LowCardinality(String) CODEC(ZSTD(1)),
+        ScopeAttributes Map(LowCardinality(String), String) CODEC(ZSTD(1)),
+        LogAttributes Map(LowCardinality(String), String) CODEC(ZSTD(1)),
+    )
+    ENGINE = MergeTree
+    ORDER BY Timestamp;
+EOSQL
+
 # Create the table for the extracted fields.
 clickhouse client <<-EOSQL
     CREATE TABLE  IF NOT EXISTS otel.otel_logs_f5_12276

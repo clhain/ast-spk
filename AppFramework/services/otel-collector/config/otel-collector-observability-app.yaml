@@ -11,7 +11,7 @@ exporters:
     endpoint: tcp://clickhouse:9000?dial_timeout=10s
     database: otel
     ttl: 72h
-    create_schema: true
+    create_schema: false
     timeout: 5s
     retry_on_failure:
       enabled: true
