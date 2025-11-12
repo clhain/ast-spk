@@ -10,6 +10,7 @@ services:
     volumes:
       - ./config/prometheus.yaml:/etc/prometheus/prometheus.yaml
       - ./config/scrape_configs/scrape_prometheus.yaml:/etc/prometheus/scrape_configs/scrape_prometheus.yaml
+      - ./config/scrape_configs/scrape_node.yaml:/etc/prometheus/scrape_configs/scrape_node.yaml
       - prometheus:/prometheus
     command:
       - '--config.file=/etc/prometheus/prometheus.yaml'

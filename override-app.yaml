@@ -41,4 +41,22 @@ services:
     # Relative to the AppFramework/stacks/observability-app compose file
     env_file: ["../../../.env"]
 
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node-exporter
+    hostname: node-exporter
+    ports:
+      - "9100:9100"
+    volumes:
+      - "/proc:/host/proc:ro"
+      - "/sys:/host/sys:ro"
+      - "/:/rootfs:ro,rslave" # Required for some collectors like filesystem
+    command:
+      - '--path.procfs=/host/proc'
+      - '--path.rootfs=/rootfs'
+      - '--path.sysfs=/host/sys'
+      # Exclude specific mount points from filesystem collection
+      - '--collector.filesystem.mount-points-exclude=^/(sys|proc|dev|host|etc)($$|/)'
+    restart: unless-stopped
+    pid: host # Needed for process metrics
 # 🚩🚩🚩 Don't put your own overrides in this file! - Run 'make init' and then put your edits in overrides.yaml 🚩🚩🚩
