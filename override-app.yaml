@@ -27,7 +27,7 @@ services:
       - "--config=/etc/otel-collector.yaml"
       - "--config=/etc/otel-collector-observability-app.yaml"
       # Add the ast app receivers / exporters / processors / pipelines
-      - "--config=/etc/otel-collector-config/otel-collector-config-extras.yaml"
+      - "--config=/etc/otel-collector-config/defaults/otel-collector-config-extras.yaml"
     ports:
       - "4317:4317"   # OTLP GRPC
       - "4318:4318"   # OTLP HTTP
