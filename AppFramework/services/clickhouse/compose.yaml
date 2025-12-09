@@ -4,6 +4,7 @@ volumes:
 services:
   clickhouse:
     image: clickhouse/clickhouse-server:25.1.4
+    restart: unless-stopped
     user: "101:101"
     hostname: clickhouse
     ulimits:
